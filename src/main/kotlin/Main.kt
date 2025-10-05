@@ -44,5 +44,25 @@ private fun Stmt.produceCFG(counter: Int): Pair<Node, Int> = when (this) {
 fun Stmt.produceCFG(): Node = this.produceCFG(0).first
 
 fun main() {
-    println("Hello World!")
+    val allStmts = listOf(
+        Stmt.Block(
+            Stmt.Assign(Expr.Var("x"), Expr.Const(0)),
+            Stmt.If(
+                Expr.Var("a"),
+                Stmt.Assign(Expr.Var("y"), Expr.Const(5)),
+                Stmt.Assign(Expr.Var("y"), Expr.Const(1))
+            ),
+            Stmt.Return(
+                Expr.Plus(
+                    Expr.Mul(Expr.Var("x"), Expr.Const(2)),
+                    Expr.Var("y")
+                )
+            )
+        )
+    )
+    allStmts.forEach {
+        print("# ")
+        println(it.pretty().split("\n").joinToString("\n# "))
+        println(it.produceCFG().emitGraphViz())
+    }
 }
