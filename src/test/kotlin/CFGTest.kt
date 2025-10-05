@@ -1,30 +1,27 @@
 package test
 
-import main.Expr
-import main.Node
-import main.Stmt
-import main.produceCFG
+import main.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.Test
 
 class ExtendedCFGTest {
 
     @Test
-    fun testSimpleAssignment() {
+    fun `simple assignment`() {
         val stmt = Stmt.Assign(Expr.Var("x"), Expr.Const(10))
         val expected = Node.Assign(Expr.Var("x"), Expr.Const(10), Node.Quit)
         assertEquals(expected, stmt.produceCFG())
     }
 
     @Test
-    fun testSimpleReturn() {
+    fun `simple return`() {
         val stmt = Stmt.Return(Expr.Var("x"))
         val expected = Node.Return(Expr.Var("x"))
         assertEquals(expected, stmt.produceCFG())
     }
 
     @Test
-    fun testSequentialAssignments() {
+    fun `sequential assignments`() {
         val stmt = Stmt.Block(
             Stmt.Assign(Expr.Var("x"), Expr.Const(1)),
             Stmt.Assign(Expr.Var("y"), Expr.Const(2)),
@@ -41,7 +38,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testIfWithoutElse() {
+    fun `if without else`() {
         val stmt = Stmt.If(
             Expr.Eq(Expr.Var("x"), Expr.Const(0)),
             Stmt.Assign(Expr.Var("y"), Expr.Const(1))
@@ -55,7 +52,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testIfWithElse() {
+    fun `if with else`() {
         val stmt = Stmt.If(
             Expr.Lt(Expr.Var("x"), Expr.Const(10)),
             Stmt.Assign(Expr.Var("result"), Expr.Const(1)),
@@ -70,7 +67,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testNestedIfStatements() {
+    fun `nested if statements`() {
         val stmt = Stmt.If(
             Expr.Var("a"),
             Stmt.If(
@@ -93,7 +90,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testBlockWithReturn() {
+    fun `block with return`() {
         val stmt = Stmt.Block(
             Stmt.Assign(Expr.Var("x"), Expr.Const(5)),
             Stmt.Return(Expr.Var("x"))
@@ -106,7 +103,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testIfWithBlockBranches() {
+    fun `if with block branches`() {
         val stmt = Stmt.If(
             Expr.NEq(Expr.Var("x"), Expr.Const(0)),
             Stmt.Block(
@@ -133,7 +130,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testComplexExpressions() {
+    fun `complex expressions`() {
         val stmt = Stmt.Block(
             Stmt.Assign(
                 Expr.Var("result"),
@@ -156,14 +153,14 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testEmptyBlock() {
+    fun `empty block`() {
         val stmt = Stmt.Block()
         val expected = Node.Quit
         assertEquals(expected, stmt.produceCFG())
     }
 
     @Test
-    fun testIfAfterIfInBlock() {
+    fun `if after if in block`() {
         val stmt = Stmt.Block(
             Stmt.If(
                 Expr.Var("a"),
@@ -194,7 +191,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testEarlyReturn() {
+    fun `early return`() {
         val stmt = Stmt.Block(
             Stmt.Assign(Expr.Var("x"), Expr.Const(10)),
             Stmt.If(
@@ -215,7 +212,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testDeeplyNestedBlocks() {
+    fun `deeply nested blocks`() {
         val stmt = Stmt.Block(
             Stmt.Block(
                 Stmt.Block(
@@ -236,7 +233,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testAllComparisonOperators() {
+    fun `all comparison operators`() {
         val stmt = Stmt.Block(
             Stmt.If(
                 Expr.Eq(Expr.Var("a"), Expr.Const(1)),
@@ -271,7 +268,7 @@ class ExtendedCFGTest {
     }
 
     @Test
-    fun testCFGGeneration() {
+    fun `cfg generation`() {
         val example1: Stmt = Stmt.Block(
             Stmt.Assign(Expr.Var("x"), Expr.Const(0)), Stmt.If(
                 Expr.Var("a"), Stmt.Assign(Expr.Var("y"), Expr.Const(5)), Stmt.Assign(Expr.Var("y"), Expr.Const(1))

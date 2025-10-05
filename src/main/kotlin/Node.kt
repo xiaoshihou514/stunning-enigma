@@ -16,4 +16,7 @@ sealed interface Node {
     ) : Node
 
     data object Quit : Node
+
+    data class Label(val label: Int, val next: Node) : Node
+    data class Goto(val label: Int) : Node
 }

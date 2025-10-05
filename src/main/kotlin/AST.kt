@@ -1,6 +1,7 @@
 package main
 
 sealed interface Stmt {
+    // can't be a data class cause of vararg
     class Block(vararg val stmt: Stmt) : Stmt {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
@@ -23,6 +24,7 @@ sealed interface Stmt {
         val elseStmt: Stmt? = null
     ) : Stmt
     data class Return(val result: Expr) : Stmt
+    data class While(val cond: Expr, val body: Stmt): Stmt
 }
 
 sealed interface Expr {
